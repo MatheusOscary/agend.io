@@ -1,0 +1,6 @@
+[
+    {
+        "path": "/agendamento",
+        "router": "agendamento"
+    }
+]
