@@ -1,9 +1,9 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('agendio', 'root', 'Amothesky3', {
+const sequelize = new Sequelize('agendio', 'root', '', {
     host: 'localhost',
-    dialect: 'mysql',
-    port: 3300, 
+    dialect: 'mariadb',
+    port: 3306, 
   });
   
 
