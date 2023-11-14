@@ -1,0 +1,27 @@
+//Tela inicial
+ Menu
+    Agendar
+        Cadastrar
+        Atualizar
+        Listagem(Agendamentos do dia)
+    Clientes
+        Filtro de busca(Nome, cpf ou cnpj)
+        Cadastrar
+        Atualizar
+        Listagem
+    Relatorio
+        Agendamentos(Data, hora, clientes, status, Descrição)
+        Quantidade de Agendamentos por dia
+    LOGAR
+        SE logado
+            Sair
+        SENAO
+            Entrar
+            Cadastrar
+    
+//Cadastrar 
+Data
+Hora
+Descrição(120) 
+id_cliente --SELECT(Bootstrap de clientes) https://getbootstrap.com/docs/5.0/forms/select/
+
