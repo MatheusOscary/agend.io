@@ -2,5 +2,9 @@
     {
         "path": "/agendamento",
         "router": "agendamento"
+    },
+    {
+        "path": "/loja",
+        "router": "loja"
     }
 ]

@@ -18,14 +18,26 @@ class AgendamentoController {
     }
     
     async insert(id_loja, data, hora, descricao, id_cliente, status) {
-        return await Agendamento.create({id_loja, data, hora, descricao, id_cliente, status});
+        return await Agendamento.create({
+            id_loja,
+            data,
+            hora,
+            descricao,
+            id_cliente,
+            status
+        });
     }
 
     async update(id_agendamento, data, hora, descricao, id_cliente) {
         const agendamento = await Agendamento.findByPk(id_agendamento);
         
         if (agendamento) {
-        return await agendamento.update({ data, hora, descricao, id_cliente});
+            return await agendamento.update({
+                data,
+                hora,
+                descricao,
+                id_cliente
+            });
         }
     }
 

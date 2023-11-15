@@ -15,11 +15,16 @@ class Server {
         const routeConfigPath = path.join(__dirname, 'routes-config.json');
         const routeConfig = JSON.parse(fs.readFileSync(routeConfigPath, 'utf-8'));
 
-        routeConfig.forEach(route => {
-            const { path, router } = route;
-            const modulo = require(`./routes/${router}`);
-            this.app.use(path, modulo);
-        });
+        try {
+            routeConfig.forEach(route => {
+                const { path, router } = route;
+                const modulo = require(`./routes/${router}`);
+                console.log(modulo)
+                this.app.use(path, modulo);
+            });
+        } catch (error) {
+            console.error('Erro ao configurar as rotas:', error);
+        }
     }
 
     async start() {
