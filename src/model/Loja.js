@@ -1,4 +1,5 @@
 const { DataTypes } = require('sequelize');
+const bcrypt = require('bcrypt');
 const sequelize = require('../config/sequelize');
 
 const Loja = sequelize.define('Loja', {
@@ -39,10 +40,6 @@ const Loja = sequelize.define('Loja', {
         type: DataTypes.STRING(255),
         allowNull: false,
     },
-    login: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-    },
     senha: {
         type: DataTypes.STRING(255),
         allowNull: false,
@@ -70,6 +67,13 @@ const Loja = sequelize.define('Loja', {
         allowNull: true, 
         unique: true,   
     },
+});
+
+Loja.beforeSave(async (loja) => {
+    if (loja.changed('senha')) {
+        const hashedPassword = await bcrypt.hash(loja.senha, 10);
+        loja.senha = hashedPassword;
+    }
 });
 
 module.exports = Loja;

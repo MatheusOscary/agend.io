@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validarjson = require('../middlewares/validarjson');
+const validartoken = require('../middlewares/validartoken');
 const agendamentoController = require('../controller/AgendamentoController');
 
 const agendamento_POST = {
@@ -50,7 +51,7 @@ const agendamento_GET = {
     }
 };
 
-router.post('/', validarjson(agendamento_POST), async (req, res) =>{
+router.post('/', validartoken, validarjson(agendamento_POST), async (req, res) =>{
     const {data, hora, descricao, id_cliente, status, id_loja} = req.body;
 
     try {

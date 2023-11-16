@@ -7,4 +7,9 @@
         "path": "/loja",
         "router": "loja"
     }
+    ,
+    {
+        "path": "/auth",
+        "router": "auth"
+    }
 ]
