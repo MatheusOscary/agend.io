@@ -4,6 +4,10 @@
         Cadastrar
         Atualizar
         Listagem(Agendamentos do dia)
+    Servicos
+        Cadastrar
+        Atualizar
+        Listagem
     Clientes
         Filtro de busca(Nome, cpf ou cnpj)
         Cadastrar
@@ -23,5 +27,5 @@
 Data
 Hora
 Descrição(120) 
-id_cliente --SELECT(Bootstrap de clientes) https://getbootstrap.com/docs/5.0/forms/select/
-
+id_cliente --SELECT(Bootstrap) https://getbootstrap.com/docs/5.0/forms/select/
+id_servico --SELECT(Bootstrap) https://getbootstrap.com/docs/5.0/forms/select/

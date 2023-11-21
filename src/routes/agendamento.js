@@ -67,7 +67,7 @@ router.post('/', validartoken, validarjson(agendamento_POST), async (req, res) =
     }
 });
 
-router.put('/', validarjson(agendamento_PUT), async (req, res) =>{
+router.put('/', validartoken, validarjson(agendamento_PUT), async (req, res) =>{
     const {data, hora, descricao, id_cliente, id_agendamento, id_loja} = req.body;
     try {
         if(await agendamentoController.disponivel(data, hora, id_loja)){
@@ -82,7 +82,7 @@ router.put('/', validarjson(agendamento_PUT), async (req, res) =>{
     }
 })
 
-router.post('/status', validarjson(agendamento_status_POST),  async (req, res) =>{
+router.post('/status', validartoken,  validarjson(agendamento_status_POST),  async (req, res) =>{
     const {id_agendamento, status} = req.body;
     try {
         const result = await agendamentoController.update_status(id_agendamento, status);
@@ -93,7 +93,7 @@ router.post('/status', validarjson(agendamento_status_POST),  async (req, res) =
     }
 })
 
-router.get('/', validarjson(agendamento_GET), async (req, res) => {
+router.get('/', validartoken,  validarjson(agendamento_GET), async (req, res) => {
     try {
         const result = await agendamentoController.find_agendamento(req.body);
         res.status(201).json(result);
@@ -103,7 +103,7 @@ router.get('/', validarjson(agendamento_GET), async (req, res) => {
     }
 })
 
-router.get('/relatorio', async (req, res) =>{
+router.get('/relatorio', validartoken,  async (req, res) =>{
     try {
         const result = await agendamentoController.contarAgendamentosPorDia();
         res.status(201).json(result);

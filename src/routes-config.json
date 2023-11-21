@@ -12,4 +12,9 @@
         "path": "/auth",
         "router": "auth"
     }
+    ,
+    {
+        "path": "/cliente",
+        "router": "cliente"
+    }
 ]

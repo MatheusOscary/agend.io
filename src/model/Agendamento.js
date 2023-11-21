@@ -1,5 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/sequelize');
+const Cliente = require('./Cliente');
+const Servico = require('./Servico');
+const Loja = require('./Loja');
 
 const Agendamento = sequelize.define('Agendamento', {
     id_agendamento: {
@@ -10,6 +13,18 @@ const Agendamento = sequelize.define('Agendamento', {
     id_loja: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: Loja,
+            key: 'id_loja',
+        },
+    },
+    id_servico: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Servico,
+            key: 'id_servico',
+        },
     },
     data: {
         type: DataTypes.STRING(10),
@@ -25,6 +40,10 @@ const Agendamento = sequelize.define('Agendamento', {
     id_cliente: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+            model: Cliente,
+            key: 'id_cliente',
+        },
     },
     status: {
         type: DataTypes.STRING(1),

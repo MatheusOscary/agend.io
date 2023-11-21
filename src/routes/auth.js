@@ -4,6 +4,16 @@ const bcrypt = require('bcrypt');
 const validarjson = require('../middlewares/validarjson');
 const AuthController = require('../controller/AuthController');
 
+const auth_POST = {
+    type: 'object',
+    properties: {
+        cpf_cnpj: { type: 'string',  minLength: 11,  maxLength: 14, pattern: "^[0-9]$" },
+        senha: { type: "string", maxLength: 255 }
+    },
+    required: ['cpf_cnpj', 'senha'],
+}
+
+
 router.post('/', async (req, res)=>{
     const {cpf_cnpj, senha} = req.body;
     try {

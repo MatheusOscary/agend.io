@@ -46,7 +46,7 @@ class LojaController{
         }
     }
 
-    async update(id_loja, nome, rua, numero, cidade, estado, cep, telefone, email, senha, tipo_pessoa, cnpj, cpf) {
+    async update(id_loja, nome, rua, numero, cidade, estado, cep, telefone, email, senha, tipo_pessoa) {
         try {
             const loja = await Loja.findByPk(id_loja);
             if (loja) {
@@ -60,9 +60,7 @@ class LojaController{
                     telefone,
                     email,
                     senha,
-                    tipo_pessoa,
-                    cnpj,
-                    cpf
+                    tipo_pessoa
                 });
                 return {message : "Sucesso ao atualizar loja."};
             }
