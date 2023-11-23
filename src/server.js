@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');  
 const fs = require('fs');
 const path = require('path');
 const sequelize = require('./config/sequelize'); 
@@ -11,7 +12,7 @@ class Server {
         this.port = process.env.PORT || 3000;
 
         this.app.use(bodyParser.json());
-
+        this.app.use(cors());  
         const routeConfigPath = path.join(__dirname, 'routes-config.json');
         const routeConfig = JSON.parse(fs.readFileSync(routeConfigPath, 'utf-8'));
 

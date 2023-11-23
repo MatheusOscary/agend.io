@@ -17,7 +17,7 @@ const Loja = sequelize.define('Loja', {
         allowNull: false,
     },
     numero: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(10),
         allowNull: false,
     },
     cidade: {

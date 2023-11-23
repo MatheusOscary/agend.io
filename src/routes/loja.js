@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const validarjson = require('../middlewares/validarjson');
 const LojaController = require('../controller/LojaController')
+const validartoken = require('../middlewares/validartoken');
 const loja_POST = {
     type: "object",
     properties: {
         nome: { type: "string", maxLength: 255 },
         rua: { type: "string", maxLength: 255 },
-        numero: { type: "integer" },
+        numero: { type: "string" , maxLength: 10},
         cidade: { type: "string", maxLength: 100 },
         estado: { type: "string", maxLength: 50 },
         cep: { type: "string", maxLength: 10 },
@@ -35,7 +36,7 @@ const loja_PUT = {
         id_loja: { type: 'integer' }, 
         nome: { type: 'string', maxLength: 255 },
         rua: { type: 'string', maxLength: 255 },
-        numero: { type: 'integer' },
+        numero: { type: "string" , maxLength: 10},
         cidade: { type: 'string', maxLength: 100 },
         estado: { type: 'string', maxLength: 50 },
         cep: { type: 'string', maxLength: 10 },
@@ -51,7 +52,7 @@ const loja_GET = {
         id_loja: { type: 'integer' }, 
         nome: { type: "string", maxLength: 255 },
         rua: { type: "string", maxLength: 255 },
-        numero: { type: "integer" },
+        numero: { type: "string" , maxLength: 10},
         cidade: { type: "string", maxLength: 100 },
         estado: { type: "string", maxLength: 50 },
         cep: { type: "string", maxLength: 10 },
@@ -90,13 +91,13 @@ router.put('/', validarjson(loja_PUT), async (req, res) => {
     }
 });
 
-router.get('/', validarjson(loja_GET), async (req, res) => {
+router.get('/', validartoken, validarjson(loja_GET), async (req, res) => {
     try {
         const result = await LojaController.find_loja( req.body);
         res.status(201).json(result);
     } catch (error) {
-        console.error('Erro ao atualizar loja:', error);
-        res.status(500).json({ error: 'Erro interno ao atualizar loja' });
+        console.error('Erro ao consultar loja:', error);
+        res.status(500).json({ error: 'Erro interno ao consultar loja' });
     }
 });
 

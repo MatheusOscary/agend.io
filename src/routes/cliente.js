@@ -61,6 +61,27 @@ const cliente_POST = {
     }
   };
 
+  const cliente_GET = {
+    type: 'object',
+    properties: {
+      id_cliente: { type: 'integer' },
+      id_loja: { type: 'integer' },
+      nome: { type: 'string', maxLength: 255 },
+      rua: { type: 'string', maxLength: 255 },
+      numero: { type: 'integer' },
+      cidade: { type: 'string', maxLength: 100 },
+      estado: { type: 'string', maxLength: 50 },
+      cep: { type: 'string', maxLength: 10 },
+      telefone: { type: 'string', maxLength: 20 },
+      email: { type: 'string', maxLength: 255 },
+      sexo: { type: 'string', maxLength: 1, enum: ['M', 'F', 'O'] },
+      tipo_pessoa: { type: 'string', maxLength: 1, enum: ['F', 'J'] },
+      cnpj: { type: 'string', maxLength: 14, pattern: '^[0-9]{14}$' },
+      cpf: { type: 'string', maxLength: 11, pattern: '^[0-9]{11}$' },
+    }
+  };
+
+
 router.post('/', validartoken, validarjson(cliente_POST), async (req, res) => {
     const { id_loja, nome, rua, numero, cidade, estado, cep, telefone, email, sexo, tipo_pessoa, cnpj, cpf } = req.body;
     try {
@@ -88,6 +109,16 @@ router.put('/', validartoken, validarjson(cliente_PUT), async (req, res) => {
     } catch (error) {
         console.error('Erro ao atualizar loja:', error);
         res.status(500).json({ error: 'Erro interno ao atualizar loja' });
+    }
+});
+
+router.get('/', validartoken, validarjson(cliente_GET), async (req, res) => {
+    try {
+        const result = await ClienteController.find_cliente( req.body);
+        res.status(201).json(result);
+    } catch (error) {
+        console.error('Erro ao consultar cliente:', error);
+        res.status(500).json({ error: 'Erro interno ao consultar cliente' });
     }
 });
 module.exports = router
