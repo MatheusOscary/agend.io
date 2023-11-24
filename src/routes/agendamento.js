@@ -10,8 +10,8 @@ const agendamento_POST = {
         data: { type: 'string', format: 'date', maxLength: 10 },
         hora: { type: 'string', pattern: '^[0-9]{2}:[0-9]{2}$', maxLength: 5 },
         descricao: { type: 'string', maxLength: 120 },
-        id_cliente: { type: 'integer' },
-        id_loja: { type: 'integer' },
+        id_cliente: { type: 'string', maxLength: 10 },
+        id_loja: { type: 'string', maxLength: 10 },
         status: {type: 'string', maxLength: 1, enum: ['a', 'c', 'f'] }
     },
     required: ['data', 'hora', 'id_cliente', 'descricao', 'id_loja', 'status'],
@@ -22,9 +22,9 @@ const agendamento_PUT = {
         data: { type: 'string', format: 'date', maxLength: 10 },
         hora: { type: 'string', pattern: '^[0-9]{2}:[0-9]{2}$', maxLength: 5 },
         descricao: { type: 'string', maxLength: 120 },
-        id_cliente: { type: 'integer' },
-        id_loja: { type: 'integer' },
-        id_agendamento: { type: 'integer' }
+        id_cliente: { type: 'string', maxLength: 10 },
+        id_loja: { type: 'string', maxLength: 10 },
+        id_agendamento: { type: 'string', maxLength: 10 }
     },
     required: ['data', 'hora', 'id_cliente', 'descricao', 'id_agendamento', 'id_loja'],
 };
@@ -32,7 +32,7 @@ const agendamento_PUT = {
 const agendamento_status_POST = {
     type: 'object',
     properties: {
-        id_agendamento: { type: 'integer' },
+        id_agendamento: { type: 'string', maxLength: 10 },
         status: {type: 'string', maxLength: 1, enum: ['a', 'c', 'f'] }
     },
     required: ['id_agendamento','status']
@@ -44,19 +44,19 @@ const agendamento_GET = {
         data: { type: 'string', format: 'date', maxLength: 10 },
         hora: { type: 'string', pattern: '^[0-9]{2}:[0-9]{2}$', maxLength: 5 },
         descricao: { type: 'string', maxLength: 120 },
-        id_agendamento: { type: 'integer' },
-        id_cliente: { type: 'integer' },
-        id_loja: { type: 'integer' },
+        id_agendamento: { type: 'string', maxLength: 10 },
+        id_cliente: { type: 'string', maxLength: 10 },
+        id_loja: { type: 'string', maxLength: 10 },
         status: {type: 'string', maxLength: 1, enum: ['a', 'c', 'f'] }
     }
 };
 
 router.post('/', validartoken, validarjson(agendamento_POST), async (req, res) =>{
-    const {data, hora, descricao, id_cliente, status, id_loja} = req.body;
+    const {data, hora, descricao, id_cliente, status, id_loja, id_servico} = req.body;
 
     try {
         if(await agendamentoController.disponivel(data, hora, id_loja)){
-            const result = await agendamentoController.insert(id_loja, data, hora, descricao, id_cliente, status);
+            const result = await agendamentoController.insert(id_loja, data, hora, descricao, id_cliente, status, id_servico);
             res.status(201).json(result);
         }else{
             res.status(409).json({ error: 'Conflito de agendamento. Já existe um agendamento para o mesmo horário.' });
@@ -93,7 +93,7 @@ router.post('/status', validartoken,  validarjson(agendamento_status_POST),  asy
     }
 })
 
-router.get('/', validartoken,  validarjson(agendamento_GET), async (req, res) => {
+router.post('/listar', validartoken,  validarjson(agendamento_GET), async (req, res) => {
     try {
         const result = await agendamentoController.find_agendamento(req.body);
         res.status(201).json(result);
@@ -103,13 +103,24 @@ router.get('/', validartoken,  validarjson(agendamento_GET), async (req, res) =>
     }
 })
 
-router.get('/relatorio', validartoken,  async (req, res) =>{
+router.post('/relatorio', validartoken,  async (req, res) =>{
     try {
-        const result = await agendamentoController.contarAgendamentosPorDia();
+        const {ano, mes, dia} = req.body;
+        const result = await agendamentoController.contarAgendamentosPorDia(ano, mes, dia);
         res.status(201).json(result);
     } catch (error) {
         console.error('Erro ao consultar relatório:', error);
         res.status(500).json({ error: 'Erro interno ao consultar relatório' });
+    }
+})
+router.delete('/:id_agendamento', validartoken,  async (req, res) =>{
+    try {
+        const {id_agendamento} = req.params;
+        const result = await agendamentoController.delete(id_agendamento);
+        res.status(201).json(result);
+    } catch (error) {
+        console.error('Erro ao deletar agendamento:', error);
+        res.status(500).json({ error: 'Erro interno ao deletar agendamento' });
     }
 })
 module.exports = router;

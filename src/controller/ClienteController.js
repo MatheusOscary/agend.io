@@ -25,7 +25,7 @@ class ClienteController{
             throw error; 
         }
     }
-    async insert (id_loja, nome, rua, numero, cidade, estado, cep, telefone, email, sexo, tipo_pessoa, cnpj, cpf) {
+    async insert(id_loja, nome, rua, numero, cidade, estado, cep, telefone, email, sexo, tipo_pessoa, cnpj, cpf) {
         try {
           await Cliente.create({
             id_loja,
@@ -47,7 +47,7 @@ class ClienteController{
           throw error; 
         }
       };
-      async update (id_cliente, nome, rua, numero, cidade, estado, cep, telefone, email, sexo, tipo_pessoa, cnpj, cpf) {
+      async update (id_cliente, nome, rua, numero, cidade, estado, cep, telefone, email, sexo, tipo_pessoa) {
         try {
             const cliente = await Cliente.findByPk(id_cliente);
             if (cliente) {
@@ -63,11 +63,22 @@ class ClienteController{
                     email,
                     sexo,
                     tipo_pessoa,
-                    cnpj,
-                    cpf
                 });
                 return {message : "Sucesso ao atualizar cliente."};
             }
+        } catch (error) {
+            return error;
+        }
+      };
+      async delete(id_cliente)  {
+        try {
+      
+         await Cliente.destroy({
+            where: {
+              id_cliente: id_cliente,
+            },
+          });
+          return {message : "Sucesso ao deletar cliente."};
         } catch (error) {
             return error;
         }

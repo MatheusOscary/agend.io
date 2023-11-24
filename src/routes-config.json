@@ -17,4 +17,9 @@
         "path": "/cliente",
         "router": "cliente"
     }
+    ,
+    {
+        "path": "/servico",
+        "router": "servico"
+    }
 ]
